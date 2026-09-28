@@ -2,7 +2,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
-#include<math.h>
+#include <stdlib.h>
+#include <time.h>
 
 
 int main()
@@ -18,13 +19,27 @@ int main()
 	do
 	{
 		num = rand() % 100 + 1; //Random number between 1 and 100
+		tries = 0;
 		do
 		{
 
 			tries++;
 
 			printf("Enter a number between 1 and 100\n");
-			scanf("%d", &guess);
+			int read = scanf("%d", &guess);
+			if (read == EOF)
+			{
+				return 0;
+			}
+			if (read != 1)
+			{
+				int c;
+				while ((c = getchar()) != '\n' && c != EOF); //Discard non-numeric input
+				printf("That is not a number\n");
+				guess = -1;
+				tries--;
+				continue;
+			}
 
 			if (guess > num)
 			{
